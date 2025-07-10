@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import bgImage from "../assets/restaurant-interior.jpg";
-import foodImage from "../assets/fried-rice.jpg";
+import foodImage from "../assets/fried-rice.png";
 
 export default function Home() {
   return (
