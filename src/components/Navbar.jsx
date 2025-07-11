@@ -1,40 +1,41 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
-    <nav className="bg-blue-400 rounded-sd shadow">
-      <ul className="flex px-4 py-2 justify-around">
+    <nav className="bg-black shadow-md">
+      <ul className="flex px-4 py-3 justify-around">
         <li>
-          <a
-            href="/"
-            className="text-white hover:text-blue-900 font-medium"
+          <Link
+            to="/"
+            className="text-yellow-400 hover:text-yellow-300 font-medium transition"
           >
             Home
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="#menu"
-            className="text-white hover:text-blue-900 font-medium"
+          <Link
+            to="/menu"
+            className="text-yellow-400 hover:text-yellow-300 font-medium transition"
           >
             Menu
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="#about"
-            className="text-white hover:text-blue-900 font-medium"
+          <Link
+            to="/about"
+            className="text-yellow-400 hover:text-yellow-300 font-medium transition"
           >
             About
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="#contact"
-            className="text-white hover:text-blue-900 font-medium"
+          <Link
+            to="/contact"
+            className="text-yellow-400 hover:text-yellow-300 font-medium transition"
           >
             Contact
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>
