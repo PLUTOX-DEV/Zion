@@ -7,6 +7,7 @@ import { FaUtensils, FaStar, FaConciergeBell } from "react-icons/fa";
 import axios from "axios";
 
 const API_BASE = import.meta.env.VITE_API_BASE || "https://zion-d1ks.onrender.com";
+const PLACEHOLDER_IMG = "/placeholder.jpg"; // You can put a placeholder image in your public folder
 
 export default function Home() {
   const [featuredDishes, setFeaturedDishes] = useState([]);
@@ -45,6 +46,20 @@ export default function Home() {
       stars: 5,
     },
   ];
+
+  // Helper to get the correct image URL with fallback and error handling
+  const getDishImageUrl = (imgUrl) => {
+    if (!imgUrl) return PLACEHOLDER_IMG;
+    if (imgUrl.startsWith("http")) return imgUrl;
+    if (imgUrl.startsWith("/uploads")) return `${API_BASE}${imgUrl}`;
+    return `${API_BASE}/uploads/${imgUrl}`;
+  };
+
+  // On error, fallback to placeholder image
+  const handleImageError = (e) => {
+    e.target.onerror = null;
+    e.target.src = PLACEHOLDER_IMG;
+  };
 
   return (
     <>
@@ -129,12 +144,9 @@ export default function Home() {
                   }}
                 >
                   <img
-                    src={
-                      dish.imgUrl.startsWith("http")
-                        ? dish.imgUrl
-                        : `${API_BASE}${dish.imgUrl}`
-                    }
+                    src={getDishImageUrl(dish.imgUrl)}
                     alt={dish.name}
+                    onError={handleImageError}
                     className="w-full h-40 object-cover rounded"
                   />
                   <h3 className="mt-4 text-lg font-semibold text-gray-700">
