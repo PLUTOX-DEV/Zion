@@ -13,32 +13,44 @@ export default function About() {
     <>
       <Navbar />
 
-      <section className="py-16 px-4 md:px-8 max-w-6xl mx-auto bg-white rounded-lg shadow-md">
-        <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">
-          About <span className="text-yellow-500">Our Restaurant</span>
-        </h1>
+      <section className="bg-gradient-to-br from-yellow-50 to-white py-16 px-4 md:px-8">
+        <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg p-6 md:p-12">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-6 text-center">
+            About <span className="text-yellow-500">Our Restaurant</span>
+          </h1>
 
-        <div
-          className={`flex flex-col md:flex-row items-center gap-8 transition-opacity duration-700 ${
-            loaded ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <img
-            src={aboutImage}
-            alt="About Our Restaurant"
-            className="w-full md:w-1/2 rounded-lg shadow-lg object-cover max-h-[400px]"
-          />
+          <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10 text-lg">
+            Discover our story, our passion, and what makes dining with us unforgettable.
+          </p>
 
-          <div className="md:w-1/2 text-gray-700 text-lg leading-relaxed space-y-6">
-            <p>
-              Established in 2020, Our Restaurant is committed to bringing you the freshest ingredients combined with authentic recipes and modern flair.
-            </p>
-            <p>
-              Our chefs are passionate about creating dishes that excite your taste buds and make every visit memorable.
-            </p>
-            <p>
-              We value great service, warm hospitality, and an atmosphere where you can relax and enjoy every bite.
-            </p>
+          <div
+            className={`flex flex-col md:flex-row items-center gap-10 transition-all duration-700 ease-out ${
+              loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+          >
+            <div className="relative w-full md:w-1/2">
+              <img
+                src={aboutImage}
+                alt="About Our Restaurant"
+                className="rounded-xl shadow-xl object-cover max-h-[400px] w-full"
+              />
+              <div className="absolute bottom-4 right-4 bg-yellow-400 text-black px-3 py-1 text-sm font-semibold rounded shadow">
+                Since 2020
+              </div>
+            </div>
+
+            <div className="md:w-1/2 text-gray-700 text-lg leading-relaxed space-y-6">
+              <p>
+                At <span className="font-semibold text-yellow-500">Our Restaurant</span>, we’ve been serving joy on a plate since 2020. Every dish is crafted with love, using the freshest local ingredients and recipes that blend tradition with innovation.
+              </p>
+              <p>
+                Our chefs and staff are dedicated to giving you an experience worth savoring — warm hospitality, an inviting atmosphere, and flavors that linger.
+              </p>
+              <p>
+                Whether it’s a casual lunch, a family dinner, or a celebration, you’re always welcome at our table.
+              </p>
+
+            </div>
           </div>
         </div>
       </section>

@@ -11,11 +11,9 @@ const API_BASE =
 
 export default function Admin() {
   const [menuItems, setMenuItems] = useState([]);
-  const [form, setForm] = useState({ name: "", description: "", price: "" });
-  const [imageFile, setImageFile] = useState(null);
+  const [form, setForm] = useState({ name: "", description: "", price: "", imgUrl: "" });
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
-  const [uploadProgress, setUploadProgress] = useState(0);
 
   const navigate = useNavigate();
 
@@ -27,12 +25,7 @@ export default function Admin() {
     setFetching(true);
     try {
       const res = await axios.get(`${API_BASE}/api/menu`);
-      if (Array.isArray(res.data)) {
-        setMenuItems(res.data);
-      } else {
-        setMenuItems([]);
-        toast.error("Invalid menu data received.");
-      }
+      setMenuItems(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
       toast.error("Failed to load menu items: " + error.message);
       setMenuItems([]);
@@ -45,45 +38,20 @@ export default function Admin() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (e) => {
-    if (e.target.files.length > 0) {
-      setImageFile(e.target.files[0]);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.name || !form.description || !form.price || !imageFile) {
-      toast.error("Please fill all fields and upload an image!");
+    if (!form.name || !form.description || !form.price || !form.imgUrl) {
+      toast.error("Please fill all fields!");
       return;
     }
 
     setLoading(true);
-    setUploadProgress(0);
 
     try {
-      const formData = new FormData();
-      formData.append("name", form.name);
-      formData.append("description", form.description);
-      formData.append("price", form.price);
-      formData.append("image", imageFile);
-
-      await axios.post(`${API_BASE}/api/menu`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        onUploadProgress: (progressEvent) => {
-          const progress = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          );
-          setUploadProgress(progress);
-        },
-      });
-
-      toast.success("Menu item added successfully!");
-      setForm({ name: "", description: "", price: "" });
-      setImageFile(null);
-      setUploadProgress(0);
-
+      await axios.post(`${API_BASE}/api/menu`, form);
+      toast.success("✅ Menu item added!");
+      setForm({ name: "", description: "", price: "", imgUrl: "" });
       fetchMenuItems();
     } catch (error) {
       toast.error(
@@ -99,7 +67,7 @@ export default function Admin() {
     try {
       await axios.delete(`${API_BASE}/api/menu/${id}`);
       toast.dismiss(toastId);
-      toast.success("Menu item deleted");
+      toast.success("✅ Item deleted");
       setMenuItems((prev) => prev.filter((item) => item._id !== id));
     } catch (error) {
       toast.dismiss(toastId);
@@ -164,26 +132,14 @@ export default function Admin() {
             placeholder="Price (e.g. 12.99)"
             className="w-full border p-2 rounded focus:outline-none focus:ring focus:ring-yellow-300"
           />
-          <div>
-            <label className="block mb-1 font-medium text-gray-700">
-              Upload Image
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="w-full"
-            />
-          </div>
-
-          {uploadProgress > 0 && (
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div
-                className="bg-yellow-400 h-2 rounded-full"
-                style={{ width: `${uploadProgress}%` }}
-              ></div>
-            </div>
-          )}
+          <input
+            type="text"
+            name="imgUrl"
+            value={form.imgUrl}
+            onChange={handleChange}
+            placeholder="Image URL (e.g. https://…)"
+            className="w-full border p-2 rounded focus:outline-none focus:ring focus:ring-yellow-300"
+          />
 
           <button
             type="submit"
@@ -220,6 +176,9 @@ export default function Admin() {
                   src={item.imgUrl}
                   alt={item.name}
                   className="w-full h-40 object-cover rounded mb-2"
+                  onError={(e) => {
+                    e.target.src = "/fallback-image.png";
+                  }}
                 />
                 <h3 className="font-semibold text-gray-800">{item.name}</h3>
                 <p className="text-sm text-gray-600 mb-1">{item.description}</p>
