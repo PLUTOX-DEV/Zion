@@ -154,7 +154,7 @@ export default function Home() {
                       </h3>
                       <p className="text-gray-500 text-sm">{dish.description}</p>
                       <p className="text-yellow-600 font-bold mt-1">
-                        ${parseFloat(dish.price).toFixed(2)}
+                       &#8358;{parseFloat(dish.price).toFixed(2)}
                       </p>
                     </div>
                   ))}
