@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import aboutImage from "../assets/restaurant-interior.jpg";
 
 export default function About() {
   const [loaded, setLoaded] = useState(false);
@@ -8,6 +7,9 @@ export default function About() {
   useEffect(() => {
     setLoaded(true);
   }, []);
+
+  const aboutImage =
+    "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1470&q=80";
 
   return (
     <>
@@ -41,15 +43,23 @@ export default function About() {
 
             <div className="md:w-1/2 text-gray-700 text-lg leading-relaxed space-y-6">
               <p>
-                At <span className="font-semibold text-yellow-500">Our Restaurant</span>, we’ve been serving joy on a plate since 2020. Every dish is crafted with love, using the freshest local ingredients and recipes that blend tradition with innovation.
+                At{" "}
+                <span className="font-semibold text-yellow-500">
+                  Our Restaurant
+                </span>
+                , we’ve been serving joy on a plate since 2020. Every dish is
+                crafted with love, using the freshest local ingredients and
+                recipes that blend tradition with innovation.
               </p>
               <p>
-                Our chefs and staff are dedicated to giving you an experience worth savoring — warm hospitality, an inviting atmosphere, and flavors that linger.
+                Our chefs and staff are dedicated to giving you an experience
+                worth savoring — warm hospitality, an inviting atmosphere, and
+                flavors that linger.
               </p>
               <p>
-                Whether it’s a casual lunch, a family dinner, or a celebration, you’re always welcome at our table.
+                Whether it’s a casual lunch, a family dinner, or a
+                celebration, you’re always welcome at our table.
               </p>
-
             </div>
           </div>
         </div>
