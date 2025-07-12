@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import bgImage from "../assets/restaurant-interior.jpg";
-import foodImage from "../assets/fried-rice.png";
 import { FaUtensils, FaStar, FaConciergeBell } from "react-icons/fa";
+import spin from "../assets/fried-rice.png";
 import axios from "axios";
 
 const API_BASE = import.meta.env.VITE_API_BASE || "https://zion-d1ks.onrender.com";
-const PLACEHOLDER_IMG = "/placeholder.jpg"; // You can put a placeholder image in your public folder
+const PLACEHOLDER_IMG = "https://via.placeholder.com/400x300?text=No+Image";
 
 export default function Home() {
   const [featuredDishes, setFeaturedDishes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchFeaturedDishes();
@@ -20,9 +20,11 @@ export default function Home() {
     try {
       const res = await axios.get(`${API_BASE}/api/menu`);
       const shuffled = res.data.sort(() => 0.5 - Math.random());
-      setFeaturedDishes(shuffled.slice(0, 3)); // pick 3 random
+      setFeaturedDishes(shuffled.slice(0, 3));
     } catch (err) {
       console.error("Failed to fetch dishes:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -47,15 +49,8 @@ export default function Home() {
     },
   ];
 
-  // Helper to get the correct image URL with fallback and error handling
-  const getDishImageUrl = (imgUrl) => {
-    if (!imgUrl) return PLACEHOLDER_IMG;
-    if (imgUrl.startsWith("http")) return imgUrl;
-    if (imgUrl.startsWith("/uploads")) return `${API_BASE}${imgUrl}`;
-    return `${API_BASE}/uploads/${imgUrl}`;
-  };
+  const getDishImageUrl = (url) => (!url ? PLACEHOLDER_IMG : url);
 
-  // On error, fallback to placeholder image
   const handleImageError = (e) => {
     e.target.onerror = null;
     e.target.src = PLACEHOLDER_IMG;
@@ -66,13 +61,13 @@ export default function Home() {
       <Navbar />
 
       <main className="scroll-smooth">
-
-        {/* Hero */}
+        {/* Hero Section */}
         <section
           id="landing"
           className="relative bg-cover bg-center min-h-[500px] md:min-h-[650px] flex items-center justify-center px-4 md:px-8"
           style={{
-            backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url(${bgImage})`,
+            backgroundImage:
+              "linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1470&q=80')",
           }}
         >
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 w-full max-w-6xl">
@@ -94,18 +89,16 @@ export default function Home() {
 
             <div className="flex justify-center md:justify-end">
               <img
-                src={foodImage}
+                src={spin}
                 alt="Delicious Dish"
                 className="w-40 sm:w-52 md:w-64"
-                style={{
-                  animation: "spin 8s linear infinite",
-                }}
+                style={{ animation: "spin 8s linear infinite" }}
               />
             </div>
           </div>
         </section>
 
-        {/* About */}
+        {/* About Section */}
         <section className="py-20 bg-white px-4 md:px-8">
           <div className="max-w-5xl mx-auto text-center space-y-4 animate-fade-in">
             <h2 className="text-4xl font-bold text-gray-800">About Us</h2>
@@ -133,38 +126,48 @@ export default function Home() {
             <h2 className="text-4xl font-bold text-gray-800 animate-fade-in">
               Featured Dishes
             </h2>
-            <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-              {featuredDishes.map((dish, i) => (
-                <div
-                  key={dish._id}
-                  className="bg-white shadow hover:shadow-lg rounded-lg p-4 transition transform hover:scale-[1.03] opacity-0 animate-slide-up"
-                  style={{
-                    animationDelay: `${i * 0.2}s`,
-                    animationFillMode: "forwards",
-                  }}
-                >
-                  <img
-                    src={getDishImageUrl(dish.imgUrl)}
-                    alt={dish.name}
-                    onError={handleImageError}
-                    className="w-full h-40 object-cover rounded"
-                  />
-                  <h3 className="mt-4 text-lg font-semibold text-gray-700">
-                    {dish.name}
-                  </h3>
-                  <p className="text-gray-500 text-sm">{dish.description}</p>
-                  <p className="text-yellow-600 font-bold mt-1">
-                    ${parseFloat(dish.price).toFixed(2)}
-                  </p>
+
+            {loading ? (
+              <div className="flex justify-center py-16">
+                <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
+              </div>
+            ) : (
+              <>
+                <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+                  {featuredDishes.map((dish, i) => (
+                    <div
+                      key={dish._id}
+                      className="bg-white shadow hover:shadow-lg rounded-lg p-4 transition transform hover:scale-[1.03] opacity-0 animate-slide-up"
+                      style={{
+                        animationDelay: `${i * 0.2}s`,
+                        animationFillMode: "forwards",
+                      }}
+                    >
+                      <img
+                        src={getDishImageUrl(dish.imgUrl)}
+                        alt={dish.name}
+                        onError={handleImageError}
+                        className="w-full h-40 object-cover rounded"
+                      />
+                      <h3 className="mt-4 text-lg font-semibold text-gray-700">
+                        {dish.name}
+                      </h3>
+                      <p className="text-gray-500 text-sm">{dish.description}</p>
+                      <p className="text-yellow-600 font-bold mt-1">
+                        ${parseFloat(dish.price).toFixed(2)}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            <Link
-              to="/menu"
-              className="inline-block mt-6 px-6 py-2 bg-yellow-400 text-black font-medium rounded hover:bg-yellow-500 transition"
-            >
-              View Full Menu
-            </Link>
+
+                <Link
+                  to="/menu"
+                  className="inline-block mt-6 px-6 py-2 bg-yellow-400 text-black font-medium rounded hover:bg-yellow-500 transition"
+                >
+                  View Full Menu
+                </Link>
+              </>
+            )}
           </div>
         </section>
 
@@ -220,11 +223,13 @@ export default function Home() {
         </section>
       </main>
 
-      {/* Animations */}
       <style>
         {`
+          .loader {
+            border-top-color: #facc15;
+            animation: spin 1s linear infinite;
+          }
           @keyframes spin {
-            from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
           }
           @keyframes fadeIn {
