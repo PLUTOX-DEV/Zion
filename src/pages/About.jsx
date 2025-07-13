@@ -47,7 +47,7 @@ export default function About() {
                 <span className="font-semibold text-yellow-500">
                   Our Restaurant
                 </span>
-                , we’ve been serving joy on a plate since 2020. Every dish is
+                , we’ve been serving joy on a plate since 2024. Every dish is
                 crafted with love, using the freshest local ingredients and
                 recipes that blend tradition with innovation.
               </p>
