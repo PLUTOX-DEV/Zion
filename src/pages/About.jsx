@@ -37,7 +37,7 @@ export default function About() {
                 className="rounded-xl shadow-xl object-cover max-h-[400px] w-full"
               />
               <div className="absolute bottom-4 right-4 bg-yellow-400 text-black px-3 py-1 text-sm font-semibold rounded shadow">
-                Since 2020
+                Since 2024
               </div>
             </div>
 
