@@ -7,7 +7,7 @@ import { auth } from "../firebase";
 import toast from "react-hot-toast";
 
 const API_BASE =
-  import.meta.env.VITE_API_BASE || "https://zion-d1ks.onrender.com";
+  import.meta.env.VITE_API_BASE || "https://zion-bn.onrender.com";
 
 export default function Admin() {
   const [menuItems, setMenuItems] = useState([]);
