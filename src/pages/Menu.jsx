@@ -5,7 +5,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
 
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl  = import.meta.env.VITE_API_BASE || "https://zion-bn.onrender.com";
+
 
 export default function Menu() {
   const [menuItems, setMenuItems] = useState([]);
