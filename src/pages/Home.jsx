@@ -5,7 +5,7 @@ import { FaUtensils, FaStar, FaConciergeBell } from "react-icons/fa";
 import spin from "../assets/fried-rice.png";
 import axios from "axios";
 
-const API_BASE = import.meta.env.VITE_API_BASE || "https://zion-d1ks.onrender.com";
+const API_BASE = import.meta.env.VITE_API_BASE || "https://zion-bn.onrender.com";
 const PLACEHOLDER_IMG = "https://via.placeholder.com/400x300?text=No+Image";
 
 export default function Home() {
