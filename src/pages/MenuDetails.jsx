@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
 
 const API_BASE =
-  import.meta.env.VITE_API_BASE || "https://zion-d1ks.onrender.com";
+  import.meta.env.VITE_API_BASE || "https://zion-bn.onrender.com";
 
 // WhatsApp number in international format (without +)
 const WHATSAPP_NUMBER = "2348053882970";
